@@ -1,0 +1,11 @@
+C:\Users\JUYOUNG\Desktop\Coding\work\slice\backend\FilmOptimizer.Shared\bin\Debug\net9.0\FilmOptimizer.Shared.deps.json
+C:\Users\JUYOUNG\Desktop\Coding\work\slice\backend\FilmOptimizer.Shared\bin\Debug\net9.0\FilmOptimizer.Shared.dll
+C:\Users\JUYOUNG\Desktop\Coding\work\slice\backend\FilmOptimizer.Shared\bin\Debug\net9.0\FilmOptimizer.Shared.pdb
+C:\Users\JUYOUNG\Desktop\Coding\work\slice\backend\FilmOptimizer.Shared\obj\Debug\net9.0\FilmOptimizer.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\JUYOUNG\Desktop\Coding\work\slice\backend\FilmOptimizer.Shared\obj\Debug\net9.0\FilmOptimizer.Shared.AssemblyInfoInputs.cache
+C:\Users\JUYOUNG\Desktop\Coding\work\slice\backend\FilmOptimizer.Shared\obj\Debug\net9.0\FilmOptimizer.Shared.AssemblyInfo.cs
+C:\Users\JUYOUNG\Desktop\Coding\work\slice\backend\FilmOptimizer.Shared\obj\Debug\net9.0\FilmOptimizer.Shared.csproj.CoreCompileInputs.cache
+C:\Users\JUYOUNG\Desktop\Coding\work\slice\backend\FilmOptimizer.Shared\obj\Debug\net9.0\FilmOptimizer.Shared.dll
+C:\Users\JUYOUNG\Desktop\Coding\work\slice\backend\FilmOptimizer.Shared\obj\Debug\net9.0\refint\FilmOptimizer.Shared.dll
+C:\Users\JUYOUNG\Desktop\Coding\work\slice\backend\FilmOptimizer.Shared\obj\Debug\net9.0\FilmOptimizer.Shared.pdb
+C:\Users\JUYOUNG\Desktop\Coding\work\slice\backend\FilmOptimizer.Shared\obj\Debug\net9.0\ref\FilmOptimizer.Shared.dll
