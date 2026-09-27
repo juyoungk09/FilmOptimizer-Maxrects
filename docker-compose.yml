@@ -3,7 +3,7 @@ name: film-optimizer
 # 단일 서버 배포 구성.
 #   docker compose up -d --build      빌드 + 기동
 #   WEB_PORT=80 docker compose up -d  웹 포트를 80 으로
-# 브라우저는 http://서버:8080 접속. 백엔드 API 는 외부에 열지 않고
+# 브라우저는 http://서버:8081 접속. 백엔드 API 는 외부에 열지 않고
 # nginx 프록시로만 닿는다.
 
 services:
@@ -36,8 +36,8 @@ services:
     ports:
       # 웹만 외부에 연다. WEB_PORT 로 바꿀 수 있다.
       # 호스트에서 도는 cloudflared 가 여기로 붙는다:
-      #   Public Hostname → Service: http://127.0.0.1:${WEB_PORT:-8080}
-      - "${WEB_PORT:-8080}:80"
+      #   Public Hostname → Service: http://127.0.0.1:${WEB_PORT:-8081}
+      - "${WEB_PORT:-8081}:80"
     depends_on:
       backend:
         # 백엔드 상태 확인을 통과한 다음에 붙인다.
