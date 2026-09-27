@@ -1,29 +1,59 @@
+name: film-optimizer
+
+# 단일 서버 배포 구성.
+#   docker compose up -d --build      빌드 + 기동
+#   WEB_PORT=80 docker compose up -d  웹 포트를 80 으로
+# 브라우저는 http://서버:8080 접속. 백엔드 API 는 외부에 열지 않고
+# nginx 프록시로만 닿는다.
 
 services:
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
-      - "8081:8081"
+    image: film-optimizer-backend
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_URLS=http://+:8080
+      ASPNETCORE_ENVIRONMENT: Production
+      # 컨테이너 안에서만 도는 포트. 외부 공개는 하지 않는다.
+      ASPNETCORE_URLS: http://+:8080
+    expose:
+      - "8080"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
     networks:
-      - slice-network
+      - filmnet
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    image: film-optimizer-frontend
     ports:
-      - "3000:3000"
+      # 웹만 외부에 연다. WEB_PORT 로 바꿀 수 있다.
+      # 호스트에서 도는 cloudflared 가 여기로 붙는다:
+      #   Public Hostname → Service: http://127.0.0.1:${WEB_PORT:-8080}
+      - "${WEB_PORT:-8080}:80"
     depends_on:
-      - backend
+      backend:
+        # 백엔드 상태 확인을 통과한 다음에 붙인다.
+        condition: service_healthy
+    healthcheck:
+      # localhost 로 두지 않는다. 컨테이너 안에서는 IPv6(::1)로 잡혀
+      # nginx 가 IPv4 만 열면 연결이 거부된다. 주소를 명시한다.
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    restart: unless-stopped
     networks:
-      - slice-network
+      - filmnet
 
 networks:
-  slice-network:
+  filmnet:
     driver: bridge

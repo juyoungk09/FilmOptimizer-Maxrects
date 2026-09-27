@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import type { Piece } from "../../types/Piece";
 import { optimize } from "../../api/optimize";
 import type { OptimizeResponse } from "../../types/Response";
@@ -37,7 +39,11 @@ export default function Sidebar({
 
 }:Props){
 
+    const [error, setError] = useState<string | null>(null);
+
     async function handleOptimize() {
+        setError(null);
+
         try {
             const request = {
                 filmWidth,
@@ -50,7 +56,7 @@ export default function Sidebar({
         }
         catch (err) {
             console.error(err);
-            alert("최적화 실패");
+            setError(err instanceof Error ? err.message : "최적화 실패");
         }
     }
     function addPiece() {
@@ -159,6 +165,16 @@ export default function Sidebar({
                 >
                     최적화
                 </button>
+
+                {
+                    error && (
+
+                        <div className="rounded border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+                            {error}
+                        </div>
+
+                    )
+                }
             </div>
         </aside>
     );

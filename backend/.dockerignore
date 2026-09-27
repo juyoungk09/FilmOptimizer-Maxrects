@@ -1,0 +1,12 @@
+# bin/obj 가 저장소에 커밋되어 있다(추적 파일 199개).
+# 이걸 그대로 복사하면 Windows 빌드 산출물(DLL 경로, obj/project.assets.json)이
+# 리눅스 이미지에 섞여서 dotnet restore/build 가 깨진다. 반드시 제외한다.
+**/bin/
+**/obj/
+**/TestResults/
+**/*.user
+**/*.suo
+**/.vs/
+**/.vscode/
+**/.idea/
+**/*.md

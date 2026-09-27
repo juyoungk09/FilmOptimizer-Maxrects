@@ -8,7 +8,7 @@ public class Piece
 
     public int Height { get; }
 
-    public int Area => Width * Height;
+    public long Area => (long)Width * Height;
 
     public Piece(int id, int width, int height)
     {

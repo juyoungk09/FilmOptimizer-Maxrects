@@ -1,0 +1,12 @@
+D:\projects\film-optimizer\FilmOptimizer-Maxrects\backend\FilmOptimizer.Core\bin\Release\net9.0\FilmOptimizer.Core.deps.json
+D:\projects\film-optimizer\FilmOptimizer-Maxrects\backend\FilmOptimizer.Core\bin\Release\net9.0\FilmOptimizer.Core.dll
+D:\projects\film-optimizer\FilmOptimizer-Maxrects\backend\FilmOptimizer.Core\bin\Release\net9.0\FilmOptimizer.Core.pdb
+D:\projects\film-optimizer\FilmOptimizer-Maxrects\backend\FilmOptimizer.Core\obj\Release\net9.0\FilmOptimizer.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\projects\film-optimizer\FilmOptimizer-Maxrects\backend\FilmOptimizer.Core\obj\Release\net9.0\FilmOptimizer.Core.AssemblyInfoInputs.cache
+D:\projects\film-optimizer\FilmOptimizer-Maxrects\backend\FilmOptimizer.Core\obj\Release\net9.0\FilmOptimizer.Core.AssemblyInfo.cs
+D:\projects\film-optimizer\FilmOptimizer-Maxrects\backend\FilmOptimizer.Core\obj\Release\net9.0\FilmOptimizer.Core.csproj.CoreCompileInputs.cache
+D:\projects\film-optimizer\FilmOptimizer-Maxrects\backend\FilmOptimizer.Core\obj\Release\net9.0\FilmOptimizer.Core.sourcelink.json
+D:\projects\film-optimizer\FilmOptimizer-Maxrects\backend\FilmOptimizer.Core\obj\Release\net9.0\FilmOptimizer.Core.dll
+D:\projects\film-optimizer\FilmOptimizer-Maxrects\backend\FilmOptimizer.Core\obj\Release\net9.0\refint\FilmOptimizer.Core.dll
+D:\projects\film-optimizer\FilmOptimizer-Maxrects\backend\FilmOptimizer.Core\obj\Release\net9.0\FilmOptimizer.Core.pdb
+D:\projects\film-optimizer\FilmOptimizer-Maxrects\backend\FilmOptimizer.Core\obj\Release\net9.0\ref\FilmOptimizer.Core.dll

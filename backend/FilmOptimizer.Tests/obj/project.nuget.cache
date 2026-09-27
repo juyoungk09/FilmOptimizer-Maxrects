@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "WT0f/mq0NMo=",
+  "dgSpecHash": "9sv92WDW3UE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\JUYOUNG\\Desktop\\Coding\\work\\slice\\backend\\FilmOptimizer.Tests\\FilmOptimizer.Tests.csproj",
+  "projectFilePath": "D:\\projects\\film-optimizer\\FilmOptimizer-Maxrects\\backend\\FilmOptimizer.Tests\\FilmOptimizer.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\JUYOUNG\\.nuget\\packages\\coverlet.collector\\6.0.2\\coverlet.collector.6.0.2.nupkg.sha512",
     "C:\\Users\\JUYOUNG\\.nuget\\packages\\microsoft.codecoverage\\17.12.0\\microsoft.codecoverage.17.12.0.nupkg.sha512",

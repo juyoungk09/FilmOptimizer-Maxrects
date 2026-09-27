@@ -56,7 +56,7 @@ export default function Home() {
                     setResult={setResult}
                 />
 
-                <PreviewCanvas result={result} />
+                <PreviewCanvas result={result} filmWidth={filmWidth} />
 
             </main>
 
