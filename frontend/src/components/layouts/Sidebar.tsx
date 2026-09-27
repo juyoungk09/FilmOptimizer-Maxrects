@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ChangeEvent } from "react";
 
 import type { Piece } from "../../types/Piece";
 import { optimize } from "../../api/optimize";
@@ -84,8 +84,8 @@ export default function Sidebar({
         setPieces(copy);
     }
     return (
-        <aside className="w-96 overflow-auto border-r bg-white p-6">
-            <h2 className="mb-6 text-xl font-bold">
+        <aside className="w-full shrink-0 border-b bg-white p-4 sm:p-6 lg:w-96 lg:overflow-y-auto lg:border-r lg:border-b-0">
+            <h2 className="mb-6 text-lg font-bold sm:text-xl">
                 입력
             </h2>
             <div className="space-y-4">
@@ -93,27 +93,28 @@ export default function Sidebar({
                     <label className="mb-1 block text-sm">
                         필름 폭
                     </label>
-                    <input
-                        type="number"
+                    <NumberInput
+                        label="필름 폭"
                         value={filmWidth}
-                        onChange={(e) => setFilmWidth(Number(e.target.value))}
-                        className="w-full rounded border p-2"
+                        onChange={setFilmWidth}
+                        className="w-full min-w-0 rounded border p-2"
                     />
                 </div>
                 <div>
                     <label className="mb-1 block text-sm">
                         Gap
                     </label>
-                    <input
-                        type="number"
+                    <NumberInput
+                        label="Gap"
                         value={gap}
-                        onChange={(e) => setGap(Number(e.target.value))}
-                        className="w-full rounded border p-2"
+                        onChange={setGap}
+                        className="w-full min-w-0 rounded border p-2"
                     />
                 </div>
-                <label className="flex items-center gap-2">
+                <label className="flex min-h-11 items-center gap-2">
                     <input
                         type="checkbox"
+                        className="size-4"
                         checked={allowRotate}
                         onChange={(e) => setAllowRotate(e.target.checked)}
                     />
@@ -125,28 +126,32 @@ export default function Sidebar({
                 </h3>
                 {
                     pieces.map((piece, index) => (
-                        <div key={index} className="flex gap-2">
-                            <input
-                                type="number"
+                        <div
+                            key={index}
+                            className="grid grid-cols-[1fr_1fr_1fr_auto] items-center gap-2"
+                        >
+                            <NumberInput
+                                label="조각 폭"
                                 value={piece.width}
-                                onChange={(e) => updatePiece(index, "width", Number(e.target.value))}
-                                className="w-20 rounded border p-2"
+                                onChange={(v) => updatePiece(index, "width", v)}
+                                className="w-full min-w-0 rounded border p-2"
                             />
-                            <input
-                                type="number"
+                            <NumberInput
+                                label="조각 높이"
                                 value={piece.height}
-                                onChange={(e) => updatePiece(index, "height", Number(e.target.value))}
-                                className="w-20 rounded border p-2"
+                                onChange={(v) => updatePiece(index, "height", v)}
+                                className="w-full min-w-0 rounded border p-2"
                             />
-                            <input
-                                type="number"
+                            <NumberInput
+                                label="조각 개수"
                                 value={piece.count}
-                                onChange={(e) => updatePiece(index, "count", Number(e.target.value))}
-                                className="w-16 rounded border p-2"
+                                onChange={(v) => updatePiece(index, "count", v)}
+                                className="w-full min-w-0 rounded border p-2"
                             />
                             <button
                                 onClick={() => removePiece(index)}
-                                className="rounded bg-red-500 px-3 text-white"
+                                aria-label="조각 삭제"
+                                className="min-h-11 min-w-11 rounded bg-red-500 px-3 text-white"
                             >
                                 X
                             </button>
@@ -155,13 +160,13 @@ export default function Sidebar({
                 }
                 <button
                     onClick={addPiece}
-                    className="w-full rounded bg-gray-200 py-2"
+                    className="min-h-11 w-full rounded bg-gray-200 py-2"
                 >
                     + 조각 추가
                 </button>
                 <button
                     onClick={handleOptimize}
-                    className="w-full rounded bg-blue-600 py-3 font-semibold text-white hover:bg-blue-700"
+                    className="min-h-11 w-full rounded bg-blue-600 py-3 font-semibold text-white hover:bg-blue-700"
                 >
                     최적화
                 </button>
@@ -177,5 +182,85 @@ export default function Sidebar({
                 }
             </div>
         </aside>
+    );
+}
+
+interface NumberInputProps {
+
+    value:number;
+    onChange:(v:number)=>void;
+
+    /** 스크린리더용 이름 */
+    label?:string;
+
+    className?:string;
+
+}
+
+/**
+ * 숫자 입력.
+ *
+ * 비어 있는 중간 상태를 허용한다. 곧바로 `Number(...)` 로 올리면 빈 문자열이 0 이 되어
+ * 입력창에 0 이 다시 찍히고, 그래서 0 을 지울 수 없게 된다.
+ *
+ * 실제로 숫자로 읽히는 값만 부모에 알리고, 포커스를 벗어나면 빈칸을 0 으로 채운다.
+ * 0 은 이 화면에서 정상값이다(gap 0, 개수 0) 그래서 `required` 대신 이 규칙을 쓴다.
+ */
+function NumberInput({
+    value,
+    onChange,
+
+    label,
+    className
+}:NumberInputProps){
+
+    const [text, setText] = useState(() => String(value));
+    const [pushed, setPushed] = useState(value);
+
+    // 바깥에서 값이 바뀌면 문자열을 맞춰준다.
+    // 조각을 지울 때 `key` 가 인덱스라 자리가 바뀐 조각도 이 경로로 갱신된다.
+    if (value !== pushed) {
+        setPushed(value);
+        setText(String(value));
+    }
+
+    function commit(next:number) {
+        setPushed(next);
+        onChange(next);
+    }
+
+    function handleChange(e:ChangeEvent<HTMLInputElement>) {
+        const raw = e.target.value;
+
+        setText(raw);
+
+        const parsed = Number(raw);
+
+        // 빈칸이나 아직 입력 중인 값은 부모에 올리지 않는다
+        if (raw.trim() === "" || !Number.isFinite(parsed))
+            return;
+
+        commit(parsed);
+    }
+
+    function handleBlur() {
+
+        // 포커스를 벗어나면 빈칸을 0 으로 확정한다
+        if (text.trim() === "" || !Number.isFinite(Number(text))) {
+            setText("0");
+            commit(0);
+        }
+    }
+
+    return (
+        <input
+            type="number"
+            inputMode="numeric"
+            aria-label={label}
+            value={text}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            className={className}
+        />
     );
 }

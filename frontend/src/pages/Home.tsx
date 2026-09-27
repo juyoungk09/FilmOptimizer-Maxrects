@@ -34,11 +34,12 @@ export default function Home() {
 
     return (
 
-        <div className="flex h-screen flex-col bg-slate-100">
+        <div className="flex min-h-dvh flex-col bg-slate-100 lg:h-dvh lg:min-h-0">
 
             <Header />
 
-            <main className="flex flex-1 overflow-hidden">
+            {/* 모바일은 위아래로 쌓고 페이지 전체를 스크롤한다. lg부터 좌우 2단 고정 레이아웃. */}
+            <main className="flex flex-1 flex-col lg:min-h-0 lg:flex-row lg:overflow-hidden">
 
                 <Sidebar
                     filmWidth={filmWidth}

@@ -13,6 +13,12 @@ const PADDING = 24;
 /** 왼쪽 길이 눈금이 차지하는 자리 */
 const RULER = 40;
 
+/** 이보다 좁은 화면에서는 여백·눈금·글자 크기를 줄여 필름을 더 크게 그린다 */
+const NARROW_WIDTH = 480;
+
+const NARROW_PADDING = 12;
+const NARROW_RULER = 26;
+
 /** 자동 확대 배율의 상한/하한 */
 const MAX_SCALE = 8;
 const MIN_SCALE = 0.02;
@@ -63,16 +69,30 @@ export default function PreviewCanvas({ result, filmWidth }: Props) {
     const usedLength = result?.usedLength ?? 0;
     const hasResult = filmWidth > 0 && usedLength > 0;
 
-    const scale = fitScale(size.width, size.height, filmWidth, usedLength);
+    // 좁은 화면에서는 여백과 눈금 자리를 줄여 그리는 영역을 넓힌다
+    const narrow = size.width > 0 && size.width < NARROW_WIDTH;
+
+    const padding = narrow ? NARROW_PADDING : PADDING;
+    const ruler = narrow ? NARROW_RULER : RULER;
+    const tickFontSize = narrow ? 10 : 11;
+
+    const scale = fitScale(
+        size.width,
+        size.height,
+        filmWidth,
+        usedLength,
+        padding,
+        ruler
+    );
 
     const filmW = filmWidth * scale;
     const filmH = usedLength * scale;
 
     // 눈금 자리와 여백을 제외한 실제 그리기 영역
-    const areaX = RULER + PADDING;
-    const areaY = PADDING;
-    const areaW = Math.max(size.width - areaX - PADDING, 0);
-    const areaH = Math.max(size.height - areaY - PADDING * 2, 0);
+    const areaX = ruler + padding;
+    const areaY = padding;
+    const areaW = Math.max(size.width - areaX - padding, 0);
+    const areaH = Math.max(size.height - areaY - padding * 2, 0);
 
     // 영역 안에 가운데 정렬
     const originX = areaX + Math.max((areaW - filmW) / 2, 0);
@@ -87,14 +107,14 @@ export default function PreviewCanvas({ result, filmWidth }: Props) {
     }
 
     return (
-        <section className="flex min-w-0 flex-1 flex-col">
-            <div className="flex items-center justify-between border-b bg-white px-6 py-3">
+        <section className="flex w-full min-w-0 flex-col lg:min-h-0 lg:flex-1">
+            <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-b bg-white px-4 py-3 sm:px-6">
                 <h2 className="font-semibold">
                     미리보기
                 </h2>
 
                 {hasResult && (
-                    <div className="flex gap-6 text-sm text-slate-500">
+                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500 sm:gap-x-6 sm:text-sm">
                         <span>
                             폭 {filmWidth} mm
                         </span>
@@ -110,7 +130,7 @@ export default function PreviewCanvas({ result, filmWidth }: Props) {
 
             <div
                 ref={containerRef}
-                className="min-h-0 flex-1 overflow-hidden bg-slate-200"
+                className="h-[60dvh] min-h-72 shrink-0 overflow-hidden bg-slate-200 lg:h-auto lg:min-h-0 lg:flex-1"
             >
                 <Stage
                     width={size.width}
@@ -125,7 +145,7 @@ export default function PreviewCanvas({ result, filmWidth }: Props) {
                                 align="center"
                                 fontSize={14}
                                 fill="#64748b"
-                                text="왼쪽에서 조각을 입력하고 최적화를 누르면 결과가 표시됩니다."
+                                text="조각을 입력하고 최적화를 누르면 결과가 표시됩니다."
                             />
                         )}
 
@@ -161,9 +181,9 @@ export default function PreviewCanvas({ result, filmWidth }: Props) {
                                             <Text
                                                 x={0}
                                                 y={y - 6}
-                                                width={RULER}
+                                                width={ruler}
                                                 align="right"
-                                                fontSize={11}
+                                                fontSize={tickFontSize}
                                                 fill="#64748b"
                                                 text={String(value)}
                                             />
@@ -223,13 +243,15 @@ function fitScale(
     availW: number,
     availH: number,
     contentW: number,
-    contentH: number
+    contentH: number,
+    padding: number,
+    ruler: number
 ) {
     if (availW <= 0 || availH <= 0 || contentW <= 0 || contentH <= 0)
         return 0;
 
-    const usableW = Math.max(availW - (RULER + PADDING) - PADDING, 1);
-    const usableH = Math.max(availH - PADDING * 2, 1);
+    const usableW = Math.max(availW - (ruler + padding) - padding, 1);
+    const usableH = Math.max(availH - padding * 2, 1);
 
     const scale = Math.min(usableW / contentW, usableH / contentH);
 
